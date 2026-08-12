@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom CRM Development — Разработка CRM-систем на заказ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-soft:#f4f7fb;
+    --bg-soft-2:#eef2f8;
+    --navy:#0b1e3d;
+    --navy-2:#122a4f;
+    --navy-3:#1b3a68;
+    --orange:#ff6a1f;
+    --orange-2:#ff8a4c;
+    --orange-soft:#ffe4d2;
+    --ink:#0f172a;
+    --muted:#5b6b85;
+    --muted-2:#8595ac;
+    --line:#e3e8f0;
+    --line-2:#dde4ee;
+    --radius:18px;
+    --shadow-sm: 0 2px 10px rgba(11,30,61,0.06);
+    --shadow-md: 0 12px 32px rgba(11,30,61,0.10);
+    --shadow-lg: 0 24px 64px rgba(11,30,61,0.16);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Manrope',sans-serif;
+    letter-spacing:-0.02em;
+    margin:0;
+  }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{ color:inherit; text-decoration:none; }
+  img,svg{ display:block; max-width:100%; }
+  button{ font:inherit; }
+  .wrap{ max-width:1200px; margin:0 auto; padding:0 32px; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px; font-weight:500; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--orange);
+  }
+  .eyebrow::before{
+    content:''; width:7px; height:7px; border-radius:50%;
+    background:var(--orange); box-shadow:0 0 0 4px var(--orange-soft);
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    padding:15px 28px; border-radius:12px; font-weight:600; font-size:15px;
+    cursor:pointer; border:1.5px solid transparent; transition:all .25s ease;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-primary{ background:var(--orange); color:#fff; box-shadow:0 10px 24px rgba(255,106,31,0.32); }
+  .btn-primary:hover{ background:#e85c14; transform:translateY(-2px); box-shadow:0 14px 30px rgba(255,106,31,0.4); }
+  .btn-ghost{ background:transparent; color:var(--navy); border-color:var(--line-2); }
+  .btn-ghost:hover{ border-color:var(--navy); background:var(--bg-soft); }
+
+  /* ===== circuit background ===== */
+  .circuit-bg{
+    position:absolute; inset:0; z-index:0; opacity:0.5;
+    background-image: radial-gradient(circle at 1px 1px, var(--line-2) 1px, transparent 0);
+    background-size: 28px 28px;
+    -webkit-mask-image: linear-gradient(to bottom, black, rgba(0,0,0,0.2) 70%, transparent);
+    mask-image: linear-gradient(to bottom, black, rgba(0,0,0,0.2) 70%, transparent);
+  }
+
+  /* ===== header ===== */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:78px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family:'Manrope',sans-serif; font-weight:800; font-size:19px; color:var(--navy); cursor:pointer; border:none; background:none; padding:0; }
+  .logo-mark{ width:34px; height:34px; border-radius:9px; background:var(--navy); position:relative; overflow:hidden; flex-shrink:0; }
+  .logo-mark::after{
+    content:''; position:absolute; width:14px; height:14px; background:var(--orange); border-radius:4px;
+    right:5px; bottom:5px;
+  }
+  .logo-mark::before{
+    content:''; position:absolute; width:8px; height:8px; background:#fff; border-radius:2px; left:6px; top:6px;
+  }
+  .nav-links{ display:flex; align-items:center; gap:8px; }
+  .nav-links button{
+    font-size:14.5px; font-weight:500; color:var(--muted); transition:all .2s;
+    background:none; border:none; cursor:pointer; padding:9px 14px; border-radius:9px;
+  }
+  .nav-links button:hover{ color:var(--navy); background:var(--bg-soft); }
+  .nav-links button.active{ color:var(--navy); background:var(--bg-soft-2); font-weight:700; }
+  .nav-cta{ display:flex; align-items:center; gap:14px; }
+  .nav-cta .btn{ padding:11px 22px; font-size:14px; border:none; }
+  .burger{
+    display:none; width:40px; height:40px; border-radius:10px; border:1px solid var(--line-2);
+    background:#fff; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .burger span, .burger span::before, .burger span::after{
+    content:''; display:block; width:18px; height:2px; background:var(--navy); position:relative; transition:.2s;
+  }
+  .burger span::before{ position:absolute; top:-6px; }
+  .burger span::after{ position:absolute; top:6px; }
+  .mobile-panel{
+    display:none; flex-direction:column; gap:2px; padding:10px 32px 16px; border-top:1px solid var(--line);
+    background:#fff;
+  }
+  .mobile-panel.open{ display:flex; }
+  .mobile-panel button{
+    text-align:left; padding:12px 6px; font-size:15px; font-weight:500; color:var(--navy);
+    background:none; border:none; border-bottom:1px solid var(--line); cursor:pointer;
+  }
+  .mobile-panel button:last-child{ border-bottom:none; }
+
+  /* ===== pages ===== */
+  .page{ display:none; }
+  .page.active{ display:block; animation:fadein .35s ease; }
+  @keyframes fadein{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:translateY(0);} }
+
+  /* ===== hero ===== */
+  .hero{ position:relative; padding:96px 0 60px; overflow:hidden; }
+  .hero-grid{ position:relative; z-index:2; display:grid; grid-template-columns:1.05fr 1fr; gap:40px; align-items:center; }
+  .hero-copy h1{ font-size:56px; line-height:1.05; font-weight:800; color:var(--navy); margin:20px 0 22px; }
+  .hero-copy h1 span{ color:var(--orange); }
+  .hero-sub{ font-size:18px; line-height:1.6; color:var(--muted); max-width:460px; margin-bottom:34px; }
+  .hero-sub b{ color:var(--navy); font-weight:600; }
+  .hero-actions{ display:flex; gap:14px; margin-bottom:44px; }
+  .hero-actions .btn{ border:1.5px solid transparent; }
+  .hero-stats{ display:flex; gap:34px; padding-top:28px; border-top:1px solid var(--line); max-width:460px; }
+  .stat-num{ font-family:'Manrope',sans-serif; font-weight:800; font-size:26px; color:var(--navy); }
+  .stat-label{ font-size:12.5px; color:var(--muted-2); margin-top:2px; }
+
+  .hero-art{ position:relative; height:520px; }
+  .float-card{
+    position:absolute; background:#fff; border-radius:16px; box-shadow:var(--shadow-lg);
+    border:1px solid var(--line); animation:floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0px);} 50%{ transform:translateY(-14px);} }
+  @media (prefers-reduced-motion: reduce){ .float-card{ animation:none; } }
+
+  /* ===== section shell ===== */
+  section{ position:relative; padding:100px 0; }
+  .page-hero{ position:relative; padding:64px 0 48px; overflow:hidden; }
+  .section-head{ max-width:640px; margin-bottom:56px; }
+  .section-head h2{ font-size:38px; font-weight:800; color:var(--navy); margin-top:14px; }
+  .section-head p{ font-size:16px; color:var(--muted); margin-top:14px; line-height:1.65; }
+  .section-alt{ background:var(--bg-soft); }
+
+  /* ===== modules ===== */
+  .modules-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .module-card{
+    background:#fff; border:1px solid var(--line); border-radius:16px; padding:28px 24px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .module-card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:var(--line-2); }
+  .module-icon{
+    width:46px; height:46px; border-radius:12px; background:var(--bg-soft);
+    display:flex; align-items:center; justify-content:center; margin-bottom:20px;
+    transition:background .25s ease;
+  }
+  .module-card:hover .module-icon{ background:var(--orange-soft); }
+  .module-icon svg{ width:24px; height:24px; }
+  .module-card h3{ font-size:16.5px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .module-card p{ font-size:13.8px; color:var(--muted); line-height:1.55; margin:0; }
+  .module-index{ font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--muted-2); margin-bottom:14px; display:block; }
+
+  /* ===== projects page ===== */
+  .projects-toolbar{
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    margin-bottom:36px; padding:16px 20px; border:1px dashed var(--line-2); border-radius:14px; background:var(--bg-soft);
+  }
+  .projects-toolbar p{ margin:0; font-size:13.5px; color:var(--muted); max-width:640px; }
+  .projects-toolbar code{ background:#fff; border:1px solid var(--line); padding:2px 6px; border-radius:5px; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--navy-3); }
+
+  .portfolio-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; }
+  .project-card{
+    background:#fff; border:1px solid var(--line); border-radius:20px; overflow:hidden;
+    box-shadow:var(--shadow-sm); transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .project-card:hover{ transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+  .project-shot{ position:relative; background:var(--bg-soft); border-bottom:1px solid var(--line); aspect-ratio:16/10; overflow:hidden; cursor:pointer; }
+  .project-shot img{ width:100%; height:100%; object-fit:cover; display:none; }
+  .project-shot img.is-active{ display:block; }
+  .shot-placeholder{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    background:
+      repeating-linear-gradient(45deg, var(--bg-soft-2) 0 12px, #ffffff 12px 24px);
+    color:var(--muted-2); text-align:center; padding:20px;
+  }
+  .shot-placeholder .cam{
+    width:44px; height:44px; border-radius:12px; background:#fff; border:1.5px dashed var(--line-2);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .shot-placeholder span{ font-size:12.5px; font-weight:600; color:var(--muted); }
+  .shot-placeholder small{ font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--muted-2); }
+
+  /* gallery controls on card */
+  .shot-nav{
+    position:absolute; top:50%; transform:translateY(-50%); width:32px; height:32px; border-radius:50%;
+    background:rgba(11,30,61,0.55); backdrop-filter:blur(4px); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; z-index:3; opacity:0; transition:opacity .2s, background .2s;
+  }
+  .project-shot:hover .shot-nav{ opacity:1; }
+  .shot-nav:hover{ background:rgba(255,106,31,0.9); }
+  .shot-nav.prev{ left:10px; }
+  .shot-nav.next{ right:10px; }
+  .shot-nav svg{ width:16px; height:16px; }
+  .shot-count{
+    position:absolute; right:10px; bottom:10px; z-index:3; background:rgba(11,30,61,0.65); color:#fff;
+    font-family:'JetBrains Mono',monospace; font-size:11px; padding:4px 9px; border-radius:20px; letter-spacing:0.02em;
+  }
+  .shot-dots{ position:absolute; left:0; right:0; bottom:10px; z-index:3; display:flex; justify-content:center; gap:5px; }
+  .shot-dots i{ width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.55); transition:.2s; }
+  .shot-dots i.on{ background:#ff6a1f; width:14px; border-radius:4px; }
+  .shot-expand{
+    position:absolute; left:10px; top:10px; z-index:3; width:30px; height:30px; border-radius:9px;
+    background:rgba(11,30,61,0.55); backdrop-filter:blur(4px); border:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s;
+  }
+  .project-shot:hover .shot-expand{ opacity:1; }
+  .shot-expand svg{ width:14px; height:14px; }
+
+  /* lightbox */
+  .lightbox{
+    position:fixed; inset:0; z-index:1000; background:rgba(6,14,30,0.92); display:none;
+    align-items:center; justify-content:center; padding:40px; backdrop-filter:blur(6px);
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox-inner{ position:relative; max-width:1000px; width:100%; }
+  .lightbox-img-wrap{ border-radius:16px; overflow:hidden; background:#0b1e3d; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; }
+  .lightbox-img-wrap img{ width:100%; height:100%; object-fit:contain; background:#0b1e3d; }
+  .lightbox-caption{ color:#fff; text-align:center; margin-top:16px; font-size:14px; }
+  .lightbox-caption b{ color:var(--orange-2); }
+  .lightbox-close{
+    position:absolute; top:-46px; right:0; width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,0.1); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .lightbox-close:hover{ background:rgba(255,255,255,0.2); }
+  .lightbox-close svg{ width:16px; height:16px; }
+  .lightbox-nav{
+    position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%;
+    background:rgba(255,255,255,0.1); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .lightbox-nav:hover{ background:var(--orange); }
+  .lightbox-nav.prev{ left:-58px; }
+  .lightbox-nav.next{ right:-58px; }
+  .lightbox-nav svg{ width:18px; height:18px; }
+  @media (max-width:760px){
+    .lightbox-nav.prev{ left:6px; } .lightbox-nav.next{ right:6px; }
+    .lightbox{ padding:20px; }
+  }
+  .project-body{ padding:24px 26px 28px; }
+  .project-tag{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500;
+    color:var(--orange); background:var(--orange-soft); padding:5px 10px; border-radius:6px;
+    letter-spacing:0.04em; margin-bottom:14px; text-transform:uppercase;
+  }
+  .project-body h3{ font-size:19px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .project-body p{ font-size:14px; color:var(--muted); line-height:1.6; margin:0 0 16px; }
+  .project-meta{ display:flex; gap:8px; flex-wrap:wrap; }
+  .meta-chip{
+    font-size:12px; color:var(--navy-3); background:var(--bg-soft); border:1px solid var(--line);
+    padding:5px 11px; border-radius:20px;
+  }
+
+  /* ===== contacts page ===== */
+  .contact{ background:var(--navy); position:relative; overflow:hidden; border-radius:0; min-height:calc(100vh - 78px); display:flex; align-items:center; }
+  .contact::before{
+    content:''; position:absolute; top:-120px; right:-100px; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,106,31,0.28), transparent 70%);
+  }
+  .contact::after{
+    content:''; position:absolute; bottom:-160px; left:-120px; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.06), transparent 70%);
+  }
+  .contact-inner{ position:relative; z-index:2; text-align:center; width:100%; }
+  .contact .eyebrow{ color:var(--orange-2); justify-content:center; }
+  .contact h2{ color:#fff; font-size:44px; font-weight:800; margin:18px 0 12px; letter-spacing:0.01em; }
+  .contact p.lead{ color:#9fb0cc; font-size:16px; max-width:480px; margin:0 auto 40px; }
+  .contact-cards{ display:flex; gap:20px; justify-content:center; flex-wrap:wrap; }
+  .contact-card{
+    display:flex; align-items:center; gap:16px; background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14); border-radius:16px; padding:20px 28px;
+    min-width:280px; text-align:left; transition:all .25s ease; backdrop-filter:blur(6px);
+  }
+  .contact-card:hover{ background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.28); transform:translateY(-3px); }
+  .contact-ic{
+    width:46px; height:46px; border-radius:12px; background:var(--orange);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .contact-ic svg{ width:22px; height:22px; }
+  .contact-card .ct-label{ font-size:12px; color:#9fb0cc; margin-bottom:3px; text-transform:uppercase; letter-spacing:0.06em; font-family:'JetBrains Mono',monospace;}
+  .contact-card .ct-value{ font-size:16.5px; font-weight:700; color:#fff; }
+
+  footer{ padding:32px 0; }
+  .footer-row{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-row span{ font-size:13px; color:var(--muted-2); }
+
+  @media (max-width: 980px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .hero-art{ height:400px; order:-1; }
+    .hero-copy h1{ font-size:40px; }
+    .modules-grid{ grid-template-columns:repeat(2,1fr); }
+    .portfolio-grid{ grid-template-columns:1fr; }
+    .nav-links, .nav-cta{ display:none; }
+    .burger{ display:flex; }
+  }
+  @media (max-width: 560px){
+    .wrap{ padding:0 20px; }
+    .modules-grid{ grid-template-columns:1fr; }
+    .hero-actions{ flex-direction:column; }
+    .hero-stats{ flex-wrap:wrap; row-gap:16px; }
+    .contact h2{ font-size:30px; }
+  }
+</style>
+</head>
+<body>
+
+  
+<header>
+  <div class="wrap nav">
+    <button class="logo" data-page="home">
+      <div class="logo-mark"></div>bine<span style="color:var(--orange)">.</span>crm
+    </button>
+    <nav class="nav-links">
+      <button data-page="home">Главная</button>
+      <button data-page="projects">Проекты</button>
+      <button data-page="contacts">Контакты</button>
+    </nav>
+    <div class="nav-cta">
+      <button class="btn btn-primary" data-page="contacts">Обсудить проект</button>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Меню"><span></span></button>
+  </div>
+  <div class="mobile-panel" id="mobilePanel">
+    <button data-page="home">Главная</button>
+    <button data-page="projects">Проекты</button>
+    <button data-page="contacts">Контакты</button>
+  </div>
+</header>
+
+
+<!-- ================= PAGE: HOME ================= -->
+<div class="page active" data-page-content="home">
+
+  <section class="hero">
+    <div class="circuit-bg"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Разработка CRM под ключ</span>
+        <h1>Custom CRM<br>Develop<span>ment</span></h1>
+        <p class="hero-sub">Индивидуальные CRM-системы для склада, сервиса и продаж — от <b>500 MDL</b>. Один дашборд вместо десяти таблиц.</p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" data-page="projects">Смотреть проекты</button>
+          <button class="btn btn-ghost" data-page="contacts">Получить консультацию</button>
+        </div>
+        <div class="hero-stats">
+          <div><div class="stat-num">7</div><div class="stat-label">модулей в системе</div></div>
+          <div><div class="stat-num">100%</div><div class="stat-label">под ваш бизнес</div></div>
+          <div><div class="stat-num">500 MDL</div><div class="stat-label">стартовая цена</div></div>
+        </div>
+      </div>
+
+      <div class="hero-art" id="heroArt"></div>
+    </div>
+  </section>
+
+  <section id="modules">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Специализация</span>
+        <h2>Семь модулей — один дашборд</h2>
+        <p>Каждый модуль решает конкретную задачу бизнеса и легко подключается к общей CRM-системе.</p>
+      </div>
+      <div class="modules-grid" id="modulesGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= PAGE: PROJECTS ================= -->
+<div class="page" data-page-content="projects">
+
+  <section class="page-hero">
+    <div class="circuit-bg"></div>
+    <div class="wrap" style="position:relative; z-index:2;">
+      <span class="eyebrow">Портфолио</span>
+      <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">Реализованные проекты</h2>
+      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">Готовые проекты, которые уже работают у клиентов !</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <!-- <div class="projects-toolbar">
+        <p>Каждый проект — это папка в <code>images/</code> (например <code>images/sklad/</code>). Просто положите туда фото с именами <code>1.jpg</code>, <code>2.jpg</code> … до <code>10.jpg</code> — сайт покажет их автоматически как галерею, менять код не нужно.</p>
+      </div> -->
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= PAGE: CONTACTS ================= -->
+<div class="page" data-page-content="contacts">
+  <section class="contact">
+    <div class="wrap contact-inner">
+      <span class="eyebrow">На связи</span>
+      <h2>ДЛЯ СВЯЗИ:</h2>
+      <p class="lead">Опишите задачу — предложу структуру модулей и стоимость разработки вашей CRM.</p>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="contact-ic">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M21 4L2 12.5l7 2.2M21 4l-3 16-8-5.3M21 4L10.5 14.7M10.5 14.7V20l3-3.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="ct-label">Telegram</div>
+            <div class="ct-value mono">@bine_manager</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-ic">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="#fff" stroke-width="1.8"/><path d="M3 7l9 6 9-6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <div class="ct-label">Объявление</div>
+            <div class="ct-value">Сообщения на 999.md</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lbClose">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="lightbox-nav prev" id="lbPrev">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="lightbox-nav next" id="lbNext">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="lightbox-img-wrap"><img id="lbImg" src="" alt=""></div>
+    <div class="lightbox-caption"><b id="lbTitle"></b> · <span id="lbCount"></span></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>© 2026 bine.crm — разработка CRM-систем на заказ</span>
+    <span>Кишинёв, Молдова</span>
+  </div>
+</footer>
+
+<script>
+/* ===================== PAGE NAVIGATION ===================== */
+function goToPage(name){
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.dataset.pageContent === name));
+  document.querySelectorAll('.nav-links button, .mobile-panel button').forEach(b => b.classList.toggle('active', b.dataset.page === name));
+  document.getElementById('mobilePanel').classList.remove('open');
+  window.scrollTo({ top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto' });
+  history.replaceState(null, '', '#' + name);
+}
+document.querySelectorAll('[data-page]').forEach(el => {
+  el.addEventListener('click', () => goToPage(el.dataset.page));
+});
+document.getElementById('burgerBtn').addEventListener('click', () => {
+  document.getElementById('mobilePanel').classList.toggle('open');
+});
+const initialPage = ['home','projects','contacts'].includes(location.hash.replace('#','')) ? location.hash.replace('#','') : 'home';
+goToPage(initialPage);
+
+/* ---------- ICON LIBRARY (monochromatic, navy stroke) ---------- */
+const ic = (paths) => `<svg viewBox="0 0 24 24" fill="none">${paths}</svg>`;
+const S = 'stroke="#0b1e3d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
+
+const icons = {
+  clients: ic(`<circle cx="9" cy="8" r="3" ${S}/><path d="M3.5 20c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6" ${S}/><circle cx="17" cy="7" r="2.2" ${S}/><path d="M15.5 12.3c2.6.3 4.5 2.6 4.5 5.4" ${S}/>`),
+  warehouse: ic(`<path d="M3 10.5L12 4l9 6.5" ${S}/><path d="M5 9.5V20h14V9.5" ${S}/><path d="M9.5 20v-6h5v6" ${S}/><path d="M9 13.2h6" ${S}/>`),
+  services: ic(`<path d="M14.7 6.3a3.4 3.4 0 00-4.6 4l-6.6 6.6 1.6 1.6 6.6-6.6a3.4 3.4 0 004.6-4l-2.3 2.3-1.9-.5-.5-1.9 2.3-2.3z" ${S}/>`),
+  salaries: ic(`<rect x="3" y="6.5" width="18" height="12" rx="2.2" ${S}/><path d="M3 10.5h18" ${S}/><circle cx="16.5" cy="14.5" r="1.6" ${S}/>`),
+  repair: ic(`<path d="M4 5h9l4 4v10H4V5z" ${S}/><path d="M8 5v5H4" ${S}/><path d="M9.5 13.8a2.2 2.2 0 013-3l-1.5 1.5 1.2 1.2 1.5-1.5a2.2 2.2 0 01-3 3l-3.8 3.8-1.2-1.2 3.8-3.8z" ${S}/>`),
+  statistics: ic(`<path d="M4 20V4" ${S}/><path d="M4 20h16" ${S}/><rect x="7" y="13" width="2.6" height="7" ${S}/><rect x="12" y="9" width="2.6" height="11" ${S}/><rect x="17" y="5.5" width="2.6" height="14.5" ${S}/>`),
+  calendar: ic(`<rect x="3.5" y="5.5" width="17" height="15" rx="2.2" ${S}/><path d="M3.5 10h17" ${S}/><path d="M8 3.5v3.6M16 3.5v3.6" ${S}/><circle cx="8.2" cy="14" r="1" fill="#0b1e3d"/><circle cx="12" cy="14" r="1" fill="#0b1e3d"/><circle cx="15.8" cy="14" r="1" fill="#0b1e3d"/>`)
+};
+
+const modules = [
+  { i:'01', icon:'clients', title:'Клиенты', text:'Единая база контактов: история заказов, статусы, теги и заметки по каждому клиенту.' },
+  { i:'02', icon:'warehouse', title:'Склад', text:'Учёт остатков, приход и списание товара, автоматические уведомления о нехватке.' },
+  { i:'03', icon:'services', title:'Услуги', text:'Каталог услуг с ценами, длительностью и привязкой к исполнителю.' },
+  { i:'04', icon:'salaries', title:'Зарплаты', text:'Расчёт окладов, бонусов и удержаний с автоматическим формированием ведомости.' },
+  { i:'05', icon:'repair', title:'Заказы на ремонт', text:'Приём заявок, статусы выполнения и история обслуживания техники клиента.' },
+  { i:'06', icon:'statistics', title:'Статистика', text:'Наглядные графики продаж, выручки и загрузки по каждому направлению.' },
+  { i:'07', icon:'calendar', title:'Календарь', text:'Планирование встреч, смен и сроков выполнения заказов в одном расписании.' },
+];
+
+document.getElementById('modulesGrid').innerHTML = modules.map(m => `
+  <div class="module-card">
+    <span class="module-index mono">${m.i}</span>
+    <div class="module-icon">${icons[m.icon]}</div>
+    <h3>${m.title}</h3>
+    <p>${m.text}</p>
+  </div>
+`).join('') + `
+  <div class="module-card" style="background:var(--navy); border-color:var(--navy);">
+    <div class="module-icon" style="background:rgba(255,255,255,0.1);">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#ff8a4c" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <h3 style="color:#fff;">Свой модуль</h3>
+    <p style="color:#a9b7d0;">Нужна нестандартная функция? Добавлю отдельный модуль под задачу вашего бизнеса.</p>
+  </div>
+`;
+
+/* ---------- HERO FLOATING DASHBOARD ---------- */
+document.getElementById('heroArt').innerHTML = `
+<div class="float-card" style="left:2%; top:6%; width:78%; padding:18px; animation-delay:0s;">
+  <svg viewBox="0 0 360 190" width="100%" height="auto">
+    <rect x="0" y="0" width="360" height="190" rx="10" fill="#ffffff"/>
+    <rect x="0" y="0" width="360" height="30" rx="10" fill="#0b1e3d"/>
+    <circle cx="16" cy="15" r="3.5" fill="#ff6a1f"/>
+    <rect x="28" y="12" width="60" height="6" rx="3" fill="#4d6690"/>
+    <rect x="230" y="10" width="110" height="10" rx="5" fill="#1b3a68"/>
+    <rect x="16" y="44" width="150" height="60" rx="8" fill="#f4f7fb"/>
+    <text x="26" y="62" font-family="Inter" font-size="9" fill="#5b6b85">Выручка за месяц</text>
+    <text x="26" y="86" font-family="Manrope" font-weight="800" font-size="22" fill="#0b1e3d">128 400 MDL</text>
+    <rect x="26" y="93" width="40" height="5" rx="2.5" fill="#ff6a1f"/>
+    <rect x="178" y="44" width="166" height="60" rx="8" fill="#f4f7fb"/>
+    <polyline points="188,90 205,78 222,84 239,64 256,72 273,52 290,60 307,44 324,50" fill="none" stroke="#ff6a1f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="16" y="114" width="328" height="62" rx="8" fill="#f4f7fb"/>
+    <rect x="28" y="126" width="90" height="6" rx="3" fill="#c7d2e3"/>
+    <rect x="28" y="140" width="140" height="6" rx="3" fill="#c7d2e3"/>
+    <rect x="28" y="154" width="70" height="6" rx="3" fill="#c7d2e3"/>
+    <circle cx="315" cy="145" r="18" fill="none" stroke="#dde4ee" stroke-width="6"/>
+    <circle cx="315" cy="145" r="18" fill="none" stroke="#0b1e3d" stroke-width="6" stroke-dasharray="70 113" stroke-linecap="round" transform="rotate(-90 315 145)"/>
+  </svg>
+</div>
+
+<div class="float-card" style="right:0%; top:38%; width:52%; padding:16px; animation-delay:1.4s;">
+  <svg viewBox="0 0 220 130" width="100%" height="auto">
+    <rect width="220" height="130" rx="10" fill="#0b1e3d"/>
+    <circle cx="34" cy="34" r="16" fill="#1b3a68"/>
+    <circle cx="34" cy="30" r="6" fill="#ff8a4c"/>
+    <path d="M20 45c1-7 6-11 14-11s13 4 14 11" stroke="#ff8a4c" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <rect x="60" y="24" width="120" height="8" rx="4" fill="#ffffff" opacity="0.9"/>
+    <rect x="60" y="38" width="80" height="6" rx="3" fill="#7f92b3"/>
+    <rect x="18" y="66" width="184" height="1" fill="#28406b"/>
+    <rect x="18" y="80" width="50" height="6" rx="3" fill="#4d6690"/>
+    <rect x="18" y="94" width="90" height="6" rx="3" fill="#ffffff" opacity="0.85"/>
+    <rect x="18" y="108" width="70" height="6" rx="3" fill="#ffffff" opacity="0.85"/>
+    <rect x="150" y="90" width="52" height="22" rx="6" fill="#ff6a1f"/>
+    <text x="176" y="105" font-family="Inter" font-size="9" fill="#fff" text-anchor="middle">Клиент</text>
+  </svg>
+</div>
+
+<div class="float-card" style="left:8%; bottom:2%; width:56%; padding:16px; animation-delay:0.7s;">
+  <svg viewBox="0 0 230 110" width="100%" height="auto">
+    <rect width="230" height="110" rx="10" fill="#ffffff"/>
+    <rect x="14" y="14" width="8" height="8" rx="2" fill="#ff6a1f"/>
+    <text x="28" y="21" font-family="Inter" font-size="9" fill="#5b6b85">Логистика · склад</text>
+    <rect x="14" y="34" width="202" height="1" fill="#e3e8f0"/>
+    <rect x="14" y="46" width="46" height="46" rx="7" fill="#f4f7fb" stroke="#e3e8f0"/>
+    <path d="M22 66l15-9 15 9" stroke="#0b1e3d" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="26" y="66" width="22" height="16" fill="none" stroke="#0b1e3d" stroke-width="1.6"/>
+    <rect x="70" y="46" width="146" height="15" rx="4" fill="#f4f7fb"/>
+    <rect x="76" y="51" width="70" height="5" rx="2.5" fill="#c7d2e3"/>
+    <rect x="70" y="65" width="146" height="15" rx="4" fill="#f4f7fb"/>
+    <rect x="76" y="70" width="90" height="5" rx="2.5" fill="#c7d2e3"/>
+    <circle cx="200" cy="72" r="4" fill="#ff6a1f"/>
+  </svg>
+</div>
+`;
+
+/* =====================================================================
+   PORTFOLIO / PROJECTS — до 10 фото на проект
+   Как добавить свои фото:
+   1. У каждого проекта есть своя папка в images/ (folder ниже, например "sklad").
+   2. Просто положите туда файлы 1.jpg, 2.jpg, 3.jpg ... до 10.jpg
+      (можно .jpg, .jpeg, .png, .webp — просто поменяйте расширение в EXTS при необходимости).
+   3. Сайт сам находит, сколько фото реально лежит в папке, и строит из них галерею.
+      Ничего в коде менять не нужно — просто добавляйте/удаляйте файлы.
+   4. Если в папке пока нет ни одного фото — карточка покажет заглушку "Добавьте фото".
+   ===================================================================== */
+const MAX_PHOTOS = 10;
+const EXTS = ['jpg','jpeg','png','webp'];
+
+const projects = [
+  {
+    folder:'dent',
+    tag:'Стоматология',
+    title:'Управление Стоматологией',
+    text:'Все возможности в одном сайте',
+    meta:['База пациентов','Календарь/записи','Склад','услуги/цены','финансы/зарплаты','отчеты/статистика']
+  },
+  {
+    folder:'wash',
+    tag:'Автомойка',
+    title:'Управление автомойки',
+    text:'Автоматический расчёт бонусов по KPI сотрудника, история начислений и итоговая ведомость на выплату.',
+    meta:['KPI','Бонусы','Ведомость']
+  },
+  {
+    folder:'dev',
+    tag:'Разработка',
+    title:'Находяться в разработке',
+    meta:['Разработка']
+  },
+  {
+    folder:'devs',
+    tag:'Разработка',
+    title:'Находяться в разработке',
+    meta:['Разработка']
+  }
+];
+
+// пробуем загрузить одно изображение по нескольким возможным расширениям
+function tryLoadImage(basePath){
+  return new Promise(resolve => {
+    let idx = 0;
+    const attempt = () => {
+      if (idx >= EXTS.length) return resolve(null);
+      const src = `${basePath}.${EXTS[idx]}`;
+      const im = new Image();
+      im.onload = () => resolve(src);
+      im.onerror = () => { idx++; attempt(); };
+      im.src = src;
+    };
+    attempt();
+  });
+}
+
+// находим все реально существующие фото (1..10) для проекта
+async function loadProjectPhotos(folder){
+  const checks = [];
+  for (let i = 1; i <= MAX_PHOTOS; i++){
+    checks.push(tryLoadImage(`images/${folder}/${i}`));
+  }
+  const results = await Promise.all(checks);
+  return results.filter(Boolean);
+}
+
+function renderShotInner(p, photos){
+  if (!photos.length){
+    return `
+      <div class="shot-placeholder">
+        <div class="cam">
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z" stroke="#8595ac" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="14" r="3.4" stroke="#8595ac" stroke-width="1.5"/></svg>
+        </div>
+        <span>Добавьте фото проекта</span>
+        <small>images/${p.folder}/1.jpg … 10.jpg</small>
+      </div>`;
+  }
+  const imgs = photos.map((src, i) => `<img src="${src}" alt="${p.title}" class="${i===0?'is-active':''}" data-i="${i}">`).join('');
+  const navBtns = photos.length > 1 ? `
+      <button class="shot-nav prev" data-act="prev" aria-label="Назад">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="shot-nav next" data-act="next" aria-label="Вперёд">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="shot-dots">${photos.map((_,i)=>`<i class="${i===0?'on':''}" data-i="${i}"></i>`).join('')}</div>
+      <div class="shot-count">1/${photos.length}</div>` : '';
+  const expandBtn = `
+      <button class="shot-expand" data-act="expand" aria-label="Открыть на весь экран">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>`;
+  return imgs + navBtns + expandBtn;
+}
+
+async function initPortfolio(){
+  const grid = document.getElementById('portfolioGrid');
+  grid.innerHTML = projects.map(p => `
+    <div class="project-card" data-folder="${p.folder}">
+      <div class="project-shot" data-folder="${p.folder}"><div class="shot-placeholder"><span style="color:var(--muted-2); font-size:12px;">Загрузка фото…</span></div></div>
+      <div class="project-body">
+        <span class="project-tag">${p.tag}</span>
+        <h3>${p.title}</h3>
+        <p>${p.text}</p>
+        <div class="project-meta">${p.meta.map(m => `<span class="meta-chip">${m}</span>`).join('')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  for (const p of projects){
+    const photos = await loadProjectPhotos(p.folder);
+    p.photos = photos;
+    const shot = grid.querySelector(`.project-shot[data-folder="${p.folder}"]`);
+    shot.innerHTML = renderShotInner(p, photos);
+    shot.dataset.current = '0';
+  }
+
+  // делегирование кликов по стрелкам / точкам / раскрытию
+  grid.addEventListener('click', (e) => {
+    const shot = e.target.closest('.project-shot');
+    if (!shot) return;
+    const folder = shot.dataset.folder;
+    const proj = projects.find(pp => pp.folder === folder);
+    if (!proj || !proj.photos || !proj.photos.length) return;
+
+    const navBtn = e.target.closest('[data-act]');
+    let cur = parseInt(shot.dataset.current || '0', 10);
+    const total = proj.photos.length;
+
+    if (navBtn && navBtn.dataset.act === 'prev'){ cur = (cur - 1 + total) % total; }
+    else if (navBtn && navBtn.dataset.act === 'next'){ cur = (cur + 1) % total; }
+    else if (navBtn && navBtn.dataset.act === 'expand'){ openLightbox(proj, cur); return; }
+    else if (e.target.closest('.shot-dots i')){ cur = parseInt(e.target.closest('.shot-dots i').dataset.i, 10); }
+    else { openLightbox(proj, cur); return; }
+
+    shot.dataset.current = cur;
+    shot.querySelectorAll('img').forEach((im, i) => im.classList.toggle('is-active', i === cur));
+    shot.querySelectorAll('.shot-dots i').forEach((d, i) => d.classList.toggle('on', i === cur));
+    const countEl = shot.querySelector('.shot-count');
+    if (countEl) countEl.textContent = `${cur+1}/${total}`;
+  });
+}
+initPortfolio();
+
+/* ---------- LIGHTBOX ---------- */
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbTitle = document.getElementById('lbTitle');
+const lbCount = document.getElementById('lbCount');
+let lbProject = null, lbIndex = 0;
+
+function openLightbox(proj, index){
+  lbProject = proj; lbIndex = index;
+  updateLightbox();
+  lb.classList.add('open');
+}
+function updateLightbox(){
+  if (!lbProject) return;
+  lbImg.src = lbProject.photos[lbIndex];
+  lbTitle.textContent = lbProject.title;
+  lbCount.textContent = `${lbIndex+1} / ${lbProject.photos.length}`;
+}
+document.getElementById('lbPrev').addEventListener('click', () => {
+  if (!lbProject) return;
+  lbIndex = (lbIndex - 1 + lbProject.photos.length) % lbProject.photos.length;
+  updateLightbox();
+});
+document.getElementById('lbNext').addEventListener('click', () => {
+  if (!lbProject) return;
+  lbIndex = (lbIndex + 1) % lbProject.photos.length;
+  updateLightbox();
+});
+document.getElementById('lbClose').addEventListener('click', () => lb.classList.remove('open'));
+lb.addEventListener('click', (e) => { if (e.target === lb) lb.classList.remove('open'); });
+document.addEventListener('keydown', (e) => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') lb.classList.remove('open');
+  if (e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+  if (e.key === 'ArrowRight') document.getElementById('lbNext').click();
+});
+</script>
+</body>
+</html>
