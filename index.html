@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Custom CRM Development — Разработка CRM-систем на заказ</title>
+<title>bine.dev</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -87,8 +87,8 @@
     border-bottom:1px solid var(--line);
   }
   .nav{ display:flex; align-items:center; justify-content:space-between; height:78px; }
-  .logo{ display:flex; align-items:center; gap:10px; font-family:'Manrope',sans-serif; font-weight:800; font-size:19px; color:var(--navy); cursor:pointer; border:none; background:none; padding:0; }
-  .logo-mark{ width:34px; height:34px; border-radius:9px; background:var(--navy); position:relative; overflow:hidden; flex-shrink:0; }
+ .logo{ display:flex; align-items:center; font-family:'Manrope',sans-serif; font-weight:800; font-size:19px; color:var(--navy); cursor:pointer; border:none; background:none; padding:0; }
+  .logo-mark{ width:34px; height:34px; border-radius:9px; background:var(--navy); position:relative; overflow:hidden; flex-shrink:0; margin-right:10px; }
   .logo-mark::after{
     content:''; position:absolute; width:14px; height:14px; background:var(--orange); border-radius:4px;
     right:5px; bottom:5px;
@@ -103,6 +103,65 @@
   }
   .nav-links button:hover{ color:var(--navy); background:var(--bg-soft); }
   .nav-links button.active{ color:var(--navy); background:var(--bg-soft-2); font-weight:700; }
+
+  .nav-dropdown{ position:relative; }
+  .nav-dropdown-trigger{
+    display:flex; align-items:center; gap:6px; font-size:14.5px; font-weight:500; color:var(--muted);
+    background:none; border:none; cursor:pointer; padding:9px 14px; border-radius:9px; transition:all .2s;
+  }
+  .nav-dropdown-trigger:hover, .nav-dropdown.open .nav-dropdown-trigger{ color:var(--navy); background:var(--bg-soft); }
+  .nav-dropdown-trigger svg{ width:12px; height:12px; transition:transform .2s; }
+  .nav-dropdown.open .nav-dropdown-trigger svg{ transform:rotate(180deg); }
+  .nav-dropdown-panel{
+    position:absolute; top:calc(100% + 10px); left:0; background:#fff; border:1px solid var(--line);
+    border-radius:14px; box-shadow:var(--shadow-md); padding:8px; min-width:240px;
+    display:none; flex-direction:column; gap:2px; z-index:150;
+  }
+  .nav-dropdown.open .nav-dropdown-panel{ display:flex; }
+  .nav-dropdown-panel button{
+    text-align:left; padding:10px 12px; border-radius:9px; font-size:14px; color:var(--navy);
+    background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:10px; width:100%;
+  }
+  .nav-dropdown-panel button:hover{ background:var(--bg-soft); }
+  .nav-dropdown-panel button .dot{ width:6px; height:6px; border-radius:50%; background:var(--orange); flex-shrink:0; }
+  .nav-dropdown-panel button.active{ background:var(--bg-soft-2); font-weight:700; }
+  .nav-dropdown-panel button.disabled{ color:var(--muted-2); cursor:not-allowed; }
+  .nav-dropdown-panel button.disabled:hover{ background:none; }
+  .nav-dropdown-panel button.disabled .dot{ background:var(--muted-2); }
+  .soon-tag{
+    margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600;
+    color:var(--muted-2); background:var(--bg-soft-2); padding:3px 7px; border-radius:5px; letter-spacing:0.04em;
+  }
+
+  .mobile-panel button.disabled{ color:var(--muted-2); cursor:not-allowed; display:flex; align-items:center; justify-content:space-between; }
+
+  .mobile-panel .group-label{ padding:12px 6px 4px; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted-2); font-family:'JetBrains Mono',monospace; }
+
+  /* niche cards on home */
+  .niches-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .niche-card{
+    background:#fff; border:1px solid var(--line); border-radius:18px; padding:30px 26px;
+    text-align:left; cursor:pointer; transition:all .25s ease; display:flex; flex-direction:column; height:100%;
+  }
+  .niche-card:hover{ transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:var(--line-2); }
+  .niche-card.disabled{ cursor:not-allowed; opacity:0.72; }
+  .niche-card.disabled:hover{ transform:none; box-shadow:none; border-color:var(--line); }
+  .niche-badge{
+    align-self:flex-start; font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600;
+    color:var(--muted); background:var(--bg-soft-2); padding:4px 10px; border-radius:20px;
+    letter-spacing:0.04em; margin-bottom:14px;
+  }
+  .niche-icon{
+    width:50px; height:50px; border-radius:13px; background:var(--bg-soft);
+    display:flex; align-items:center; justify-content:center; margin-bottom:22px; transition:background .25s ease;
+  }
+  .niche-card:hover .niche-icon{ background:var(--orange-soft); }
+  .niche-icon svg{ width:26px; height:26px; }
+  .niche-card h3{ font-size:18px; font-weight:700; color:var(--navy); margin-bottom:10px; }
+  .niche-card p{ font-size:13.8px; color:var(--muted); line-height:1.6; margin:0 0 20px; flex-grow:1; }
+  .niche-link{ font-size:13.5px; font-weight:700; color:var(--orange); display:flex; align-items:center; gap:6px; }
+  .niche-card:hover .niche-link{ gap:9px; }
+  .niche-link svg{ width:14px; height:14px; transition:transform .2s; }
   .nav-cta{ display:flex; align-items:center; gap:14px; }
   .nav-cta .btn{ padding:11px 22px; font-size:14px; border:none; }
   .burger{
@@ -313,14 +372,14 @@
     .hero-grid{ grid-template-columns:1fr; }
     .hero-art{ height:400px; order:-1; }
     .hero-copy h1{ font-size:40px; }
-    .modules-grid{ grid-template-columns:repeat(2,1fr); }
+    .modules-grid, .niches-grid{ grid-template-columns:repeat(2,1fr); }
     .portfolio-grid{ grid-template-columns:1fr; }
     .nav-links, .nav-cta{ display:none; }
     .burger{ display:flex; }
   }
   @media (max-width: 560px){
     .wrap{ padding:0 20px; }
-    .modules-grid{ grid-template-columns:1fr; }
+    .modules-grid, .niches-grid{ grid-template-columns:1fr; }
     .hero-actions{ flex-direction:column; }
     .hero-stats{ flex-wrap:wrap; row-gap:16px; }
     .contact h2{ font-size:30px; }
@@ -329,15 +388,25 @@
 </head>
 <body>
 
-  
 <header>
   <div class="wrap nav">
     <button class="logo" data-page="home">
-      <div class="logo-mark"></div>bine<span style="color:var(--orange)">.</span>crm
+      <div class="logo-mark"></div>bine<span style="color:var(--orange)">.</span>dev
     </button>
     <nav class="nav-links">
       <button data-page="home">Главная</button>
-      <button data-page="projects">Проекты</button>
+      <div class="nav-dropdown" id="servicesDropdown">
+        <button class="nav-dropdown-trigger" id="servicesTrigger" type="button">
+          Услуги
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav-dropdown-panel">
+          <button data-page="crm"><span class="dot"></span>CRM-системы</button>
+          <button data-page="bots"><span class="dot"></span>Telegram-боты</button>
+          <!-- <button data-page="websites"><span class="dot"></span>Сайты и веб-приложения</button> -->
+<button data-page="automation"><span class="dot"></span>Автоматизация процессов</button>
+        </div>
+      </div>
       <button data-page="contacts">Контакты</button>
     </nav>
     <div class="nav-cta">
@@ -347,11 +416,14 @@
   </div>
   <div class="mobile-panel" id="mobilePanel">
     <button data-page="home">Главная</button>
-    <button data-page="projects">Проекты</button>
+    <div class="group-label">Услуги</div>
+    <button data-page="crm">CRM-системы</button>
+    <button data-page="bots">Telegram-боты</button>
+    <!-- <button data-page="websites">Сайты и веб-приложения</button> -->
+<button data-page="automation">Автоматизация процессов</button>
     <button data-page="contacts">Контакты</button>
   </div>
 </header>
-
 
 <!-- ================= PAGE: HOME ================= -->
 <div class="page active" data-page-content="home">
@@ -360,17 +432,17 @@
     <div class="circuit-bg"></div>
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">Разработка CRM под ключ</span>
-        <h1>Custom CRM<br>Develop<span>ment</span></h1>
-        <p class="hero-sub">Индивидуальные CRM-системы для склада, сервиса и продаж — от <b>500 MDL</b>. Один дашборд вместо десяти таблиц.</p>
+        <span class="eyebrow">Цифровые решения под ключ</span>
+        <h1>Custom Software<br>Develop<span>ment</span></h1>
+        <p class="hero-sub">CRM-системы, Telegram-боты, сайты и автоматизация бизнес-процессов — от <b>150 MDL</b></p>
         <div class="hero-actions">
-          <button class="btn btn-primary" data-page="projects">Смотреть проекты</button>
+          <button class="btn btn-primary" id="heroToNiches">Все направления</button>
           <button class="btn btn-ghost" data-page="contacts">Получить консультацию</button>
         </div>
         <div class="hero-stats">
-          <div><div class="stat-num">7</div><div class="stat-label">модулей в системе</div></div>
+          <div><div class="stat-num">3</div><div class="stat-label">направления разработки</div></div>
           <div><div class="stat-num">100%</div><div class="stat-label">под ваш бизнес</div></div>
-          <div><div class="stat-num">500 MDL</div><div class="stat-label">стартовая цена</div></div>
+          <div><div class="stat-num">150 MDL</div><div class="stat-label">стартовая цена</div></div>
         </div>
       </div>
 
@@ -378,7 +450,32 @@
     </div>
   </section>
 
-  <section id="modules">
+  <section id="niches">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Направления</span>
+        <h2>Что я разрабатываю</h2>
+        <p>Работаю в трёх направлениях — от готового продукта до автоматизации рутинных процессов бизнеса.</p>
+      </div>
+      <div class="niches-grid" id="nichesGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= PAGE: CRM ================= -->
+<div class="page" data-page-content="crm">
+
+  <section class="page-hero">
+    <div class="circuit-bg"></div>
+    <div class="wrap" style="position:relative; z-index:2;">
+      <span class="eyebrow">Направление · CRM</span>
+      <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">CRM-системы под ключ</h2>
+      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">Индивидуальные CRM для склада, сервиса и продаж — от 500 MDL. Один дашборд вместо десяти таблиц.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">Специализация</span>
@@ -389,26 +486,134 @@
     </div>
   </section>
 
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Портфолио</span>
+        <h2>Проекты CRM</h2>
+        <p>Интерфейсы, которые уже работают у клиентов: от учёта склада до расчёта зарплат сотрудников.</p>
+      </div>
+      <!-- <div class="projects-toolbar">
+        <p>Стоимость <code>От 100 лей</code> <code>До  2.000</code></p>
+      </div> -->
+      <div class="portfolio-grid" id="crmGrid"></div>
+    </div>
+  </section>
+
 </div>
 
-<!-- ================= PAGE: PROJECTS ================= -->
-<div class="page" data-page-content="projects">
+<!-- ================= PAGE: TELEGRAM BOTS ================= -->
+<div class="page" data-page-content="bots">
 
   <section class="page-hero">
     <div class="circuit-bg"></div>
     <div class="wrap" style="position:relative; z-index:2;">
-      <span class="eyebrow">Портфолио</span>
-      <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">Реализованные проекты</h2>
-      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">Готовые проекты, которые уже работают у клиентов !</p>
+      <span class="eyebrow">Направление · Боты</span>
+      <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">Telegram-боты для бизнеса</h2>
+      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">Приём заказов, запись на услуги и поддержка клиентов — прямо в мессенджере, без сторонних приложений.</p>
     </div>
   </section>
 
   <section style="padding-top:0;">
     <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Возможности</span>
+        <h2>Что умеют боты</h2>
+        <p>Собираю бота под конкретный процесс — от простого приёма заявок до полноценной интеграции с CRM.</p>
+      </div>
+      <div class="modules-grid" id="botsFeaturesGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Портфолио</span>
+        <h2>Проекты ботов</h2>
+        <p>Готовые Telegram-боты, работающие у клиентов каждый день.</p>
+      </div>
       <!-- <div class="projects-toolbar">
-        <p>Каждый проект — это папка в <code>images/</code> (например <code>images/sklad/</code>). Просто положите туда фото с именами <code>1.jpg</code>, <code>2.jpg</code> … до <code>10.jpg</code> — сайт покажет их автоматически как галерею, менять код не нужно.</p>
+        <p>Каждый проект — это папка в <code>images/bots/</code> (например <code>images/bots/magazin-bot/</code>). Просто положите туда фото <code>1.jpg</code> … до <code>10.jpg</code>.</p>
       </div> -->
-      <div class="portfolio-grid" id="portfolioGrid"></div>
+      <div class="portfolio-grid" id="botsGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= PAGE: WEBSITES ================= -->
+<div class="page" data-page-content="websites">
+
+  <section class="page-hero">
+    <div class="circuit-bg"></div>
+    <div class="wrap" style="position:relative; z-index:2;">
+      <span class="eyebrow">Направление · Сайты</span>
+      <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">Сайты и веб-приложения</h2>
+      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">От лендinga для запуска продукта до личного кабинета с авторизацией — быстро, адаптивно, аккуратно.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Возможности</span>
+        <h2>Что входит в разработку</h2>
+        <p>Каждый сайт собирается под конкретную задачу — продажи, заявки или сервис для клиентов.</p>
+      </div>
+      <div class="modules-grid" id="websitesFeaturesGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="projects-toolbar">
+        <!-- <span class="eyebrow">Портфолио</span>
+        <h2>Проекты сайтов</h2> -->
+        <p>Лендinges, интернет-магазины и личные кабинеты, реализованные для клиентов.</p>
+      <div class="portfolio-grid" id="websitesGrid"></div>
+      <!-- <div class="projects-toolbar">
+        <p>Каждый проект — это папка в <code>images/websites/</code> (например <code>images/websites/landing/</code>). Просто положите туда фото <code>1.jpg</code> … до <code>10.jpg</code>.</p>
+      </div> -->
+      <div class="portfolio-grid" id="websitesGrid"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= PAGE: AUTOMATION ================= -->
+<div class="page" data-page-content="automation">
+
+  <section class="page-hero">
+    <div class="circuit-bg"></div>
+    <div class="wrap" style="position:relative; z-index:2;">
+      <span class="eyebrow">Направление · Автоматизация</span>
+      <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">Автоматизация бизнес-процессов</h2>
+      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">Соединяю сервисы между собой и убираю рутину: отчёты, уведомления и обмен данными — без ручной работы.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Возможности</span>
+        <h2>Что можно автоматизировать</h2>
+        <p>Беру рутинную задачу и превращаю её в процесс, который работает без вашего участия.</p>
+      </div>
+      <div class="modules-grid" id="automationFeaturesGrid"></div>
+    </div>
+  </section>
+
+  <section class="section-alt">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Портфолио</span>
+        <h2>Проекты автоматизации</h2>
+        <p>Интеграции и сценарии, которые уже экономят время клиентам.</p>
+      </div>
+      <!-- <div class="projects-toolbar">
+        <p>Каждый проект — это папка в <code>images/automation/</code> (например <code>images/automation/otchety/</code>). Просто положите туда фото <code>1.jpg</code> … до <code>10.jpg</code>.</p>
+      </div> -->
+      <div class="portfolio-grid" id="automationGrid"></div>
     </div>
   </section>
 
@@ -463,17 +668,25 @@
 
 <footer>
   <div class="wrap footer-row">
-    <span>© 2026 bine.crm — разработка CRM-систем на заказ</span>
+    <span>© 2026 bine.dev — разработка систем на заказ</span>
     <span>Кишинёв, Молдова</span>
   </div>
 </footer>
 
 <script>
 /* ===================== PAGE NAVIGATION ===================== */
+const VALID_PAGES = ['home','crm','bots','websites','automation','contacts'];
+
+function closeDropdowns(){
+  document.querySelectorAll('.nav-dropdown.open').forEach(d => d.classList.remove('open'));
+}
+
 function goToPage(name){
+  if (!VALID_PAGES.includes(name)) name = 'home';
   document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.dataset.pageContent === name));
-  document.querySelectorAll('.nav-links button, .mobile-panel button').forEach(b => b.classList.toggle('active', b.dataset.page === name));
+  document.querySelectorAll('.nav-links button[data-page], .mobile-panel button[data-page], .nav-dropdown-panel button[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === name));
   document.getElementById('mobilePanel').classList.remove('open');
+  closeDropdowns();
   window.scrollTo({ top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto' });
   history.replaceState(null, '', '#' + name);
 }
@@ -483,8 +696,26 @@ document.querySelectorAll('[data-page]').forEach(el => {
 document.getElementById('burgerBtn').addEventListener('click', () => {
   document.getElementById('mobilePanel').classList.toggle('open');
 });
-const initialPage = ['home','projects','contacts'].includes(location.hash.replace('#','')) ? location.hash.replace('#','') : 'home';
+
+/* services dropdown */
+const servicesDropdown = document.getElementById('servicesDropdown');
+document.getElementById('servicesTrigger').addEventListener('click', (e) => {
+  e.stopPropagation();
+  servicesDropdown.classList.toggle('open');
+});
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.nav-dropdown')) closeDropdowns();
+});
+
+/* hero -> scroll to niches on home */
+document.getElementById('heroToNiches').addEventListener('click', () => {
+  goToPage('home');
+  setTimeout(() => document.getElementById('niches').scrollIntoView({ behavior:'smooth' }), 60);
+});
+
+const initialPage = VALID_PAGES.includes(location.hash.replace('#','')) ? location.hash.replace('#','') : 'home';
 goToPage(initialPage);
+
 
 /* ---------- ICON LIBRARY (monochromatic, navy stroke) ---------- */
 const ic = (paths) => `<svg viewBox="0 0 24 24" fill="none">${paths}</svg>`;
@@ -497,7 +728,37 @@ const icons = {
   salaries: ic(`<rect x="3" y="6.5" width="18" height="12" rx="2.2" ${S}/><path d="M3 10.5h18" ${S}/><circle cx="16.5" cy="14.5" r="1.6" ${S}/>`),
   repair: ic(`<path d="M4 5h9l4 4v10H4V5z" ${S}/><path d="M8 5v5H4" ${S}/><path d="M9.5 13.8a2.2 2.2 0 013-3l-1.5 1.5 1.2 1.2 1.5-1.5a2.2 2.2 0 01-3 3l-3.8 3.8-1.2-1.2 3.8-3.8z" ${S}/>`),
   statistics: ic(`<path d="M4 20V4" ${S}/><path d="M4 20h16" ${S}/><rect x="7" y="13" width="2.6" height="7" ${S}/><rect x="12" y="9" width="2.6" height="11" ${S}/><rect x="17" y="5.5" width="2.6" height="14.5" ${S}/>`),
-  calendar: ic(`<rect x="3.5" y="5.5" width="17" height="15" rx="2.2" ${S}/><path d="M3.5 10h17" ${S}/><path d="M8 3.5v3.6M16 3.5v3.6" ${S}/><circle cx="8.2" cy="14" r="1" fill="#0b1e3d"/><circle cx="12" cy="14" r="1" fill="#0b1e3d"/><circle cx="15.8" cy="14" r="1" fill="#0b1e3d"/>`)
+  calendar: ic(`<rect x="3.5" y="5.5" width="17" height="15" rx="2.2" ${S}/><path d="M3.5 10h17" ${S}/><path d="M8 3.5v3.6M16 3.5v3.6" ${S}/><circle cx="8.2" cy="14" r="1" fill="#0b1e3d"/><circle cx="12" cy="14" r="1" fill="#0b1e3d"/><circle cx="15.8" cy="14" r="1" fill="#0b1e3d"/>`),
+
+  /* niche icons */
+  niche_crm: ic(`<rect x="3.5" y="4" width="17" height="16" rx="3" ${S}/><path d="M3.5 9.5h17" ${S}/><rect x="7" y="13" width="4" height="4" rx="1" ${S}/><path d="M14 13h3M14 16h3" ${S}/>`),
+  niche_bot: ic(`<path d="M3 20l3.2-1.1c1.6 1 3.6 1.6 5.8 1.6 5 0 9-3.2 9-7.2S17 6 12 6s-9 3.2-9 7.2c0 1.7.7 3.3 2 4.5L3 20z" ${S}/><circle cx="9" cy="13" r="1.1" fill="#0b1e3d"/><circle cx="15" cy="13" r="1.1" fill="#0b1e3d"/>`),
+  niche_web: ic(`<rect x="3" y="5" width="18" height="14" rx="2.5" ${S}/><path d="M3 9h18" ${S}/><circle cx="6.3" cy="7" r="0.6" fill="#0b1e3d"/><circle cx="8.3" cy="7" r="0.6" fill="#0b1e3d"/><path d="M7 13.5h10M7 16.2h6" ${S}/>`),
+  niche_auto: ic(`<circle cx="12" cy="12" r="3" ${S}/><path d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5M17.7 6.3l-1.5 1.5M7.8 16.2l-1.5 1.5M17.7 17.7l-1.5-1.5M7.8 7.8L6.3 6.3" ${S}/>`),
+
+  /* bot features */
+  bot_order: ic(`<rect x="5" y="3.5" width="14" height="17" rx="2.2" ${S}/><path d="M8.5 3.5v-1h7v1" ${S}/><path d="M8.5 9.5h7M8.5 13h7M8.5 16.5h4" ${S}/>`),
+  bot_payment: ic(`<rect x="3" y="6" width="18" height="12" rx="2.4" ${S}/><path d="M3 10.2h18" ${S}/><rect x="6" y="13" width="5" height="2.2" rx="0.8" ${S}/>`),
+  bot_integration: ic(`<path d="M9 15a4 4 0 010-6h1.5" ${S}/><path d="M15 9a4 4 0 010 6h-1.5" ${S}/><path d="M9 12h6" ${S}/>`),
+  bot_broadcast: ic(`<path d="M4 10v4h3l5 4V6L7 10H4z" ${S}/><path d="M16.5 9a4 4 0 010 6M19 6.5a7.5 7.5 0 010 11" ${S}/>`),
+  bot_notify: ic(`<path d="M6 10a6 6 0 0112 0c0 4 1.4 5.5 1.4 5.5H4.6S6 14 6 10z" ${S}/><path d="M10 19a2 2 0 004 0" ${S}/>`),
+  bot_support: ic(`<circle cx="12" cy="12" r="8.5" ${S}/><path d="M8.5 12a3.5 3.5 0 017 0" ${S}/><rect x="6.7" y="11.3" width="2.2" height="3.4" rx="1" ${S}/><rect x="15.1" y="11.3" width="2.2" height="3.4" rx="1" ${S}/>`),
+
+  /* website features */
+  web_landing: ic(`<rect x="3.5" y="4.5" width="17" height="15" rx="2.2" ${S}/><rect x="6.5" y="7.5" width="11" height="4.5" rx="1" ${S}/><path d="M6.5 15h11M6.5 17.3h6" ${S}/>`),
+  web_shop: ic(`<path d="M5 8h14l-1.3 9.2a2 2 0 01-2 1.8H8.3a2 2 0 01-2-1.8L5 8z" ${S}/><path d="M8.5 8V6.5a3.5 3.5 0 017 0V8" ${S}/>`),
+  web_account: ic(`<circle cx="12" cy="8.5" r="3.3" ${S}/><path d="M5 19c0-3.6 3.1-6.3 7-6.3s7 2.7 7 6.3" ${S}/>`),
+  web_responsive: ic(`<rect x="3" y="5" width="13" height="9.5" rx="1.6" ${S}/><rect x="17.3" y="8.5" width="4" height="7.5" rx="1.2" ${S}/><path d="M8 17.5h4" ${S}/>`),
+  web_seo: ic(`<circle cx="10.5" cy="10.5" r="6" ${S}/><path d="M15 15l5 5" ${S}/>`),
+  web_admin: ic(`<circle cx="12" cy="12" r="2.6" ${S}/><path d="M12 4v2.2M12 17.8V20M4 12h2.2M17.8 12H20M6.5 6.5l1.6 1.6M15.9 15.9l1.6 1.6M6.5 17.5l1.6-1.6M15.9 8.1l1.6-1.6" ${S}/>`),
+
+  /* automation features */
+  auto_integration: ic(`<rect x="3" y="4" width="7" height="7" rx="1.6" ${S}/><rect x="14" y="4" width="7" height="7" rx="1.6" ${S}/><rect x="8.5" y="14" width="7" height="7" rx="1.6" ${S}/><path d="M6.5 11v3M17.5 11v3M9.5 14V11h6v3" ${S}/>`),
+  auto_report: ic(`<rect x="4" y="4" width="16" height="16" rx="2.4" ${S}/><path d="M8 15v-3M12 15V9M16 15v-5" ${S}/>`),
+  auto_sync: ic(`<path d="M4 8h11l-2.5-2.5M20 16H9l2.5 2.5" ${S}/>`),
+  auto_api: ic(`<path d="M9 4L4 12l5 8M15 4l5 8-5 8" ${S}/>`),
+  auto_alert: ic(`<path d="M6 10a6 6 0 0112 0c0 4 1.4 5.5 1.4 5.5H4.6S6 14 6 10z" ${S}/><path d="M10 19a2 2 0 004 0" ${S}/>`),
+  auto_time: ic(`<circle cx="12" cy="13" r="7.5" ${S}/><path d="M12 8.5V13l3 2" ${S}/><path d="M9.5 2.5h5" ${S}/>`)
 };
 
 const modules = [
@@ -517,6 +778,107 @@ document.getElementById('modulesGrid').innerHTML = modules.map(m => `
     <h3>${m.title}</h3>
     <p>${m.text}</p>
   </div>
+`).join('') + `
+  <div class="module-card" style="background:var(--navy); border-color:var(--navy);">
+    <div class="module-icon" style="background:rgba(255,255,255,0.1);">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#ff8a4c" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <h3 style="color:#fff;">Свой модуль</h3>
+    <p style="color:#a9b7d0;">Нужна нестандартная функция? Добавлю отдельный модуль под задачу вашего бизнеса.</p>
+  </div>
+`;
+
+/* ---------- NICHE CARDS (home page) ---------- */
+const arrowSvg = `<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const niches = [
+  { icon:'niche_crm', page:'crm', title:'CRM-системы', text:'Учёт клиентов, склада, заказов и зарплат в одном дашборде под ваш бизнес.' },
+  { icon:'niche_bot', page:'bots', title:'Telegram-боты', text:'Приём заказов, запись на услуги и поддержка клиентов прямо в мессенджере.' },
+  // { icon:'niche_web', page:'websites', title:'Сайты и веб-приложения', text:'Лендинги, интернет-магазины и личные кабинеты — быстрые и адаптивные.' },
+  { icon:'niche_auto', page:'automation', title:'Автоматизация', text:'Связываю сервисы между собой и убираю рутину из ежедневных процессов.' },
+];
+document.getElementById('nichesGrid').innerHTML = niches.map(n => n.disabled ? `
+  <div class="niche-card disabled">
+    <span class="niche-badge">В разработке</span>
+    <div class="niche-icon">${icons[n.icon]}</div>
+    <h3>${n.title}</h3>
+    <p>${n.text}</p>
+  </div>
+` : `
+  <button class="niche-card" data-page="${n.page}">
+    <div class="niche-icon">${icons[n.icon]}</div>
+    <h3>${n.title}</h3>
+    <p>${n.text}</p>
+    <span class="niche-link">Смотреть проекты ${arrowSvg}</span>
+  </button>
+`).join('');
+document.querySelectorAll('#nichesGrid [data-page]').forEach(el => {
+  el.addEventListener('click', () => goToPage(el.dataset.page));
+});
+
+/* ---------- BOT FEATURES ---------- */
+const botFeatures = [
+  { i:'01', icon:'bot_order', title:'Приём заказов', text:'Клиент оформляет заказ прямо в чате — без сайта и лишних шагов.' },
+  { i:'02', icon:'bot_integration', title:'CRM-интеграция', text:'Заявки из бота сразу попадают в вашу CRM или таблицу.' },
+  { i:'03', icon:'bot_notify', title:'Уведомления', text:'Статусы заказа и напоминания приходят клиенту автоматически.' }
+];
+document.getElementById('botsFeaturesGrid').innerHTML = botFeatures.map(m => `
+  <div class="module-card">
+    <span class="module-index mono">${m.i}</span>
+    <div class="module-icon">${icons[m.icon]}</div>
+    <h3>${m.title}</h3>
+    <p>${m.text}</p>
+  </div>
+`).join('') + `
+  <div class="module-card" style="background:var(--navy); border-color:var(--navy);">
+    <div class="module-icon" style="background:rgba(255,255,255,0.1);">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#ff8a4c" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <h3 style="color:#fff;">Свой модуль</h3>
+    <p style="color:#a9b7d0;">Нужна нестандартная функция? Добавлю отдельный модуль под задачу вашего бизнеса.</p>
+  </div>
+`;
+
+/* ---------- WEBSITE FEATURES ---------- */
+const webFeatures = [
+  { i:'01', icon:'web_landing', title:'Лендинги', text:'Одностраничные сайты под запуск продукта или рекламную кампанию.' },
+  { i:'02', icon:'web_shop', title:'Интернет-магазины', text:'Каталог, корзина и оформление заказа с приёмом оплаты.' },
+  { i:'03', icon:'web_account', title:'Личный кабинет', text:'Авторизация, история заказов и профиль клиента.' },
+  { i:'04', icon:'web_responsive', title:'Адаптивный дизайн', text:'Корректное отображение на телефоне, планшете и десктопе.' },
+  { i:'05', icon:'web_seo', title:'SEO-оптимизация', text:'Структура и скорость сайта, дружелюбные к поисковым системам.' },
+  { i:'06', icon:'web_admin', title:'Админ-панель', text:'Управление контентом, заказами и пользователями без разработчика.' },
+];
+document.getElementById('websitesFeaturesGrid').innerHTML = webFeatures.map(m => `
+  <div class="module-card">
+    <span class="module-index mono">${m.i}</span>
+    <div class="module-icon">${icons[m.icon]}</div>
+    <h3>${m.title}</h3>
+    <p>${m.text}</p>
+  </div>
+`).join('') + `
+  <div class="module-card" style="background:var(--navy); border-color:var(--navy);">
+    <div class="module-icon" style="background:rgba(255,255,255,0.1);">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#ff8a4c" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <h3 style="color:#fff;">Свой модуль</h3>
+    <p style="color:#a9b7d0;">Нужна нестандартная функция? Добавлю отдельный модуль под задачу вашего бизнеса.</p>
+  </div>
+`;
+
+/* ---------- AUTOMATION FEATURES ---------- */
+const autoFeatures = [
+  { i:'01', icon:'auto_integration', title:'Интеграция сервисов', text:'Связываю CRM, сайт, бота и таблицы в единый процесс.' },
+  { i:'02', icon:'auto_report', title:'Автоматические отчёты', text:'Регулярные отчёты для руководства без ручного сбора данных.' },
+  { i:'03', icon:'auto_alert', title:'Уведомления и алерты', text:'Мгновенные оповещения в Telegram или email о важных событиях.' },
+];
+document.getElementById('automationFeaturesGrid').innerHTML = autoFeatures.map(m => `
+  <div class="module-card">
+    <span class="module-index mono">${m.i}</span>
+    <div class="module-icon">${icons[m.icon]}</div>
+    <h3>${m.title}</h3>
+    <p>${m.text}</p>
+  </div>
+
+  
 `).join('') + `
   <div class="module-card" style="background:var(--navy); border-color:var(--navy);">
     <div class="module-icon" style="background:rgba(255,255,255,0.1);">
@@ -587,45 +949,55 @@ document.getElementById('heroArt').innerHTML = `
 `;
 
 /* =====================================================================
-   PORTFOLIO / PROJECTS — до 10 фото на проект
+   PORTFOLIO / PROJECTS — до 15 фото на проект, по каждому направлению
    Как добавить свои фото:
-   1. У каждого проекта есть своя папка в images/ (folder ниже, например "sklad").
+   1. У каждого проекта есть своя папка в images/<ниша>/<проект>/, например images/crm/sklad/.
    2. Просто положите туда файлы 1.jpg, 2.jpg, 3.jpg ... до 10.jpg
       (можно .jpg, .jpeg, .png, .webp — просто поменяйте расширение в EXTS при необходимости).
    3. Сайт сам находит, сколько фото реально лежит в папке, и строит из них галерею.
       Ничего в коде менять не нужно — просто добавляйте/удаляйте файлы.
    4. Если в папке пока нет ни одного фото — карточка покажет заглушку "Добавьте фото".
    ===================================================================== */
-const MAX_PHOTOS = 10;
+const MAX_PHOTOS = 15;
 const EXTS = ['jpg','jpeg','png','webp'];
 
-const projects = [
-  {
-    folder:'service',
-    tag:'Автосервис',
-    title:'Управление автосервисом',
-    text: 'Все возможности в одном сайте',
-    meta:['Заказ наряды','База клиентов','Календарь/записи','Склад','услуги/цены','финансы/зарплаты','Заметки']
-  },
-  {
-    folder:'dent',
-    tag:'Стоматология',
-    title:'Управление Стоматологией',
-    text:'Все возможности в одном сайте',
-    meta:['База пациентов','Календарь/записи','Склад','услуги/цены','финансы/зарплаты','отчеты/статистика']
-  },
-  {
-    folder:'dev',
-    tag:'Разработка',
-    title:'На стадии разработки',
-    meta:['Разработка']
-  },
-  {
-    folder:'devs',
-    tag:'Разработка',
-    title:'На стадии разработки',
-    meta:['Разработка']
-  }
+const crmProjects = [
+  { folder:'crm/service', tag:'Автосервис', title:'Управление автосервисом',
+    text:'',
+    meta:['Заказ наряды','База клиентов','Календарь/записи','Склад','услуги/цены','финансы/зарплаты','Заметки'] },
+  { folder:'crm/dent', tag:'Стоматология', title:'Управление стоматологией',
+    text:'',
+    meta:['База пациентов','Календарь/записи','Склад','услуги/цены','финансы/зарплаты','отчеты/статистика'] }
+];
+
+const botsProjects = [
+  { folder:'bots/zapis-bot', tag:'Запись', title:'Бот записи на услуги',
+    text:'Клиент выбирает услугу, мастера и удобное время без звонков администратору.',
+    meta:['Календарь','Напоминания','Онлайн-запись'] },
+  { folder:'bots/podderzhka-bot', tag:'Поддержка', title:'Бот поддержки клиентов',
+    text:'Отвечает на частые вопросы автоматически и передаёт сложные случаи оператору.',
+    meta:['FAQ','Тикеты','Оператор'] }
+];
+
+const websitesProjects = [
+  { folder:'websites/landing', tag:'Лендинг', title:'Лендинг для запуска продукта',
+    text:'Одностраничный сайт с акцентом на конверсию, аналитику и сбор заявок.',
+    meta:['Конверсия','Аналитика','Формы'] },
+  { folder:'websites/magazin', tag:'Магазин', title:'Интернет-магазин с корзиной',
+    text:'Каталог товаров, фильтры, корзина и оформление заказа с оплатой онлайн.',
+    meta:['Каталог','Корзина','Оплата'] },
+  { folder:'websites/cabinet', tag:'Кабинет', title:'Личный кабинет клиента',
+    text:'Авторизация, история заказов и управление профилем на отдельной странице.',
+    meta:['Авторизация','История','Профиль'] },
+  { folder:'websites/admin-panel', tag:'Админка', title:'Панель администратора',
+    text:'Управление контентом, заказами, ролями пользователей и отчётами.',
+    meta:['Контент','Роли','Отчёты'] }
+];
+
+const automationProjects = [
+  { folder:'automation/otchety', tag:'Отчёты', title:'Автоматические отчёты для руководства',
+    text:'Регулярные отчёты по продажам и загрузке приходят в Telegram или на почту без ручного сбора.',
+    meta:['Расписание','Telegram/Email','Дашборд'] }
 ];
 
 // пробуем загрузить одно изображение по нескольким возможным расширениям
@@ -682,8 +1054,10 @@ function renderShotInner(p, photos){
   return imgs + navBtns + expandBtn;
 }
 
-async function initPortfolio(){
-  const grid = document.getElementById('portfolioGrid');
+// строит галерею проектов внутри указанного грид-контейнера
+async function renderPortfolioGrid(gridId, projects){
+  const grid = document.getElementById(gridId);
+  if (!grid) return;
   grid.innerHTML = projects.map(p => `
     <div class="project-card" data-folder="${p.folder}">
       <div class="project-shot" data-folder="${p.folder}"><div class="shot-placeholder"><span style="color:var(--muted-2); font-size:12px;">Загрузка фото…</span></div></div>
@@ -699,37 +1073,44 @@ async function initPortfolio(){
   for (const p of projects){
     const photos = await loadProjectPhotos(p.folder);
     p.photos = photos;
-    const shot = grid.querySelector(`.project-shot[data-folder="${p.folder}"]`);
+    const shot = grid.querySelector(`.project-shot[data-folder="${CSS.escape(p.folder)}"]`);
     shot.innerHTML = renderShotInner(p, photos);
     shot.dataset.current = '0';
   }
 
-  // делегирование кликов по стрелкам / точкам / раскрытию
-  grid.addEventListener('click', (e) => {
-    const shot = e.target.closest('.project-shot');
-    if (!shot) return;
-    const folder = shot.dataset.folder;
-    const proj = projects.find(pp => pp.folder === folder);
-    if (!proj || !proj.photos || !proj.photos.length) return;
+  // делегирование кликов по стрелкам / точкам / раскрытию (вешаем один раз на грид)
+  if (!grid.dataset.bound){
+    grid.dataset.bound = '1';
+    grid.addEventListener('click', (e) => {
+      const shot = e.target.closest('.project-shot');
+      if (!shot) return;
+      const folder = shot.dataset.folder;
+      const proj = projects.find(pp => pp.folder === folder);
+      if (!proj || !proj.photos || !proj.photos.length) return;
 
-    const navBtn = e.target.closest('[data-act]');
-    let cur = parseInt(shot.dataset.current || '0', 10);
-    const total = proj.photos.length;
+      const navBtn = e.target.closest('[data-act]');
+      let cur = parseInt(shot.dataset.current || '0', 10);
+      const total = proj.photos.length;
 
-    if (navBtn && navBtn.dataset.act === 'prev'){ cur = (cur - 1 + total) % total; }
-    else if (navBtn && navBtn.dataset.act === 'next'){ cur = (cur + 1) % total; }
-    else if (navBtn && navBtn.dataset.act === 'expand'){ openLightbox(proj, cur); return; }
-    else if (e.target.closest('.shot-dots i')){ cur = parseInt(e.target.closest('.shot-dots i').dataset.i, 10); }
-    else { openLightbox(proj, cur); return; }
+      if (navBtn && navBtn.dataset.act === 'prev'){ cur = (cur - 1 + total) % total; }
+      else if (navBtn && navBtn.dataset.act === 'next'){ cur = (cur + 1) % total; }
+      else if (navBtn && navBtn.dataset.act === 'expand'){ openLightbox(proj, cur); return; }
+      else if (e.target.closest('.shot-dots i')){ cur = parseInt(e.target.closest('.shot-dots i').dataset.i, 10); }
+      else { openLightbox(proj, cur); return; }
 
-    shot.dataset.current = cur;
-    shot.querySelectorAll('img').forEach((im, i) => im.classList.toggle('is-active', i === cur));
-    shot.querySelectorAll('.shot-dots i').forEach((d, i) => d.classList.toggle('on', i === cur));
-    const countEl = shot.querySelector('.shot-count');
-    if (countEl) countEl.textContent = `${cur+1}/${total}`;
-  });
+      shot.dataset.current = cur;
+      shot.querySelectorAll('img').forEach((im, i) => im.classList.toggle('is-active', i === cur));
+      shot.querySelectorAll('.shot-dots i').forEach((d, i) => d.classList.toggle('on', i === cur));
+      const countEl = shot.querySelector('.shot-count');
+      if (countEl) countEl.textContent = `${cur+1}/${total}`;
+    });
+  }
 }
-initPortfolio();
+
+renderPortfolioGrid('crmGrid', crmProjects);
+renderPortfolioGrid('botsGrid', botsProjects);
+renderPortfolioGrid('websitesGrid', websitesProjects);
+renderPortfolioGrid('automationGrid', automationProjects);
 
 /* ---------- LIGHTBOX ---------- */
 const lb = document.getElementById('lightbox');
