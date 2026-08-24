@@ -400,7 +400,7 @@
 <header>
   <div class="wrap nav">
     <button class="logo" data-page="home">
-      <div class="logo-mark"></div>bine<span style="color:var(--orange)">.</span>dev
+      <div class="logo-mark"></div>swizy<span style="color:var(--orange)">.</span>dev
     </button>
     <nav class="nav-links">
       <button data-page="home">Главная</button>
@@ -410,10 +410,10 @@
           <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="nav-dropdown-panel">
+          <button data-page="websites"><span class="dot"></span>Сайты</button>  
           <button data-page="crm"><span class="dot"></span>CRM-системы</button>
           <button data-page="bots"><span class="dot"></span>Telegram-боты</button>
-          <!-- <button data-page="websites"><span class="dot"></span>Сайты и веб-приложения</button> -->
-<button data-page="automation"><span class="dot"></span>Автоматизация процессов</button>
+          <button data-page="automation"><span class="dot"></span>Автоматизация процессов</button>
         </div>
       </div>
       <button data-page="contacts">Контакты</button>
@@ -426,10 +426,10 @@
   <div class="mobile-panel" id="mobilePanel">
     <button data-page="home">Главная</button>
     <div class="group-label">Услуги</div>
+    <button data-page="websites">Сайты и веб-приложения</button>
     <button data-page="crm">CRM-системы</button>
     <button data-page="bots">Telegram-боты</button>
-    <!-- <button data-page="websites">Сайты и веб-приложения</button> -->
-<button data-page="automation">Автоматизация процессов</button>
+    <button data-page="automation">Автоматизация процессов</button>
     <button data-page="contacts">Контакты</button>
   </div>
 </header>
@@ -558,7 +558,7 @@
     <div class="wrap" style="position:relative; z-index:2;">
       <span class="eyebrow">Направление · Сайты</span>
       <h2 style="font-size:38px; font-weight:800; color:var(--navy); margin-top:14px;">Сайты и веб-приложения</h2>
-      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">От лендinga для запуска продукта до личного кабинета с авторизацией — быстро, адаптивно, аккуратно.</p>
+      <p style="font-size:16px; color:var(--muted); margin-top:14px; max-width:640px; line-height:1.65;">От лендинга для запуска продукта до личного кабинета с авторизацией - быстро, адаптивно, аккуратно.</p>
     </div>
   </section>
 
@@ -567,7 +567,7 @@
       <div class="section-head">
         <span class="eyebrow">Возможности</span>
         <h2>Что входит в разработку</h2>
-        <p>Каждый сайт собирается под конкретную задачу — продажи, заявки или сервис для клиентов.</p>
+        <p>Каждый сайт собирается под конкретную задачу для клиентов.</p>
       </div>
       <div class="modules-grid" id="websitesFeaturesGrid"></div>
     </div>
@@ -576,9 +576,9 @@
   <section class="section-alt">
     <div class="wrap">
       <div class="projects-toolbar">
-        <!-- <span class="eyebrow">Портфолио</span>
-        <h2>Проекты сайтов</h2> -->
-        <p>Лендinges, интернет-магазины и личные кабинеты, реализованные для клиентов.</p>
+        <span class="eyebrow">Портфолио</span>
+        <h2>Готовые проекты</h2>
+        <p>Лендинг, интернет-магазины и личные кабинеты, реализованные для клиентов.</p>
       <div class="portfolio-grid" id="websitesGrid"></div>
       <!-- <div class="projects-toolbar">
         <p>Каждый проект — это папка в <code>images/websites/</code> (например <code>images/websites/landing/</code>). Просто положите туда фото <code>1.jpg</code> … до <code>10.jpg</code>.</p>
@@ -800,9 +800,9 @@ document.getElementById('modulesGrid').innerHTML = modules.map(m => `
 /* ---------- NICHE CARDS (home page) ---------- */
 const arrowSvg = `<svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const niches = [
+{ icon:'niche_web', page:'websites', title:'Сайты', text:'Лендинги, интернет-магазины и личные кабинеты — быстрые и адаптивные.' },
   { icon:'niche_crm', page:'crm', title:'CRM-системы', text:'Учёт клиентов, склада, заказов и зарплат в одном дашборде под ваш бизнес.' },
   { icon:'niche_bot', page:'bots', title:'Telegram-боты', text:'Приём заказов, запись на услуги и поддержка клиентов прямо в мессенджере.' },
-  // { icon:'niche_web', page:'websites', title:'Сайты и веб-приложения', text:'Лендинги, интернет-магазины и личные кабинеты — быстрые и адаптивные.' },
   { icon:'niche_auto', page:'automation', title:'Автоматизация', text:'Связываю сервисы между собой и убираю рутину из ежедневных процессов.' },
 ];
 document.getElementById('nichesGrid').innerHTML = niches.map(n => n.disabled ? `
@@ -989,18 +989,9 @@ const botsProjects = [
 ];
 
 const websitesProjects = [
-  { folder:'websites/landing', tag:'Лендинг', title:'Лендинг для запуска продукта',
+  { folder:'websites/landing', tag:'landing', title:'Лендинг для запуска продукта',
     text:'Одностраничный сайт с акцентом на конверсию, аналитику и сбор заявок.',
     meta:['Конверсия','Аналитика','Формы'] },
-  { folder:'websites/magazin', tag:'Магазин', title:'Интернет-магазин с корзиной',
-    text:'Каталог товаров, фильтры, корзина и оформление заказа с оплатой онлайн.',
-    meta:['Каталог','Корзина','Оплата'] },
-  { folder:'websites/cabinet', tag:'Кабинет', title:'Личный кабинет клиента',
-    text:'Авторизация, история заказов и управление профилем на отдельной странице.',
-    meta:['Авторизация','История','Профиль'] },
-  { folder:'websites/admin-panel', tag:'Админка', title:'Панель администратора',
-    text:'Управление контентом, заказами, ролями пользователей и отчётами.',
-    meta:['Контент','Роли','Отчёты'] }
 ];
 
 const automationProjects = [
